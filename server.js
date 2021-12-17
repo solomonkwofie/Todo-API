@@ -1,45 +1,34 @@
 //const { response, request } = require('express');
 const express = require('express');
 const app = express();
+require('dotenv').config();
+const PORT = process.env.PORT|| 1500;
 const mongoose = require('mongoose');
+const todoModel = require('./models/todoModel');
 // importing todocontroller
-const todoController=require('/controllers/todoController');
+const todoController=require('./controllers/todoController');
+const { add } = require('nodemon/lib/rules');
+const { request, response } = require('express');
 
-app.get('/',(require,response)=> {
-    response.send('Hello this is a get reponse');
+app.use(express.json()),
+
+app.get("/",(request,response) =>{
+ response.status(200).json({message:"Hello Welcome to my todo API"})   
 });
 
 
-app.post('/',(require,response)=>{
-    response.send('hello this is a post respone');
-});
-
-app.post('/',(require,response)=>{
-    response.send('hello this is a put respone');
-});
+app.post('/todo',todoController.addTodo);
+app.get ('/todo',todoController.getALLTodo);
+app.patch ('/todoId',todoController.updateById);
+app.delete ('/todoId',todoController.deleteById);
+app.get('/todo/:todoId',todoController.getTodoById);
 
 
-app.get('/todos',(request,response)=>{
-    response.send([{
-        'title':'Plan the trip to Kumasi',
-        'description':'I will be going to kumasi this weekend',
-        'time':'Today',
-        'iscompleted': false
-    }]);
-    
-});
-
-app.get('/users',(request,response)=>{
-    response.send([{
-        'username':'Solomon',
-        'password':'password3',
-        'iscompleted':false
-    }])
-})
-app.listen(5010,() => {
-    console.log("My server is up and running on port 5010");
+// listening to request on localhost post 5010
+app.listen(PORT,() => {
+    console.log("My server is up and running ",PORT);
     // connecting to the database
-    mongoose.connect('mongodb+srv://solo:1234@cluster0.4iuve.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
+    mongoose.connect(process.env.DB_URL)
     .then(function(){
         console.log("DataBase is connected");
     })

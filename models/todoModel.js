@@ -1,7 +1,8 @@
+
 const mongoose =require('mongoose');
 
 const todoschema = new mongoose.Schema({
-    title:String,
+    title: String,
     description:String,
     time:Date,
     isCompleted:Boolean,
