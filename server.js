@@ -19,8 +19,8 @@ app.get("/",(request,response) =>{
 
 app.post('/todo',todoController.addTodo);
 app.get ('/todo',todoController.getALLTodo);
-app.patch ('/todoId',todoController.updateById);
-app.delete ('/todoId',todoController.deleteById);
+app.patch ('/todo/:todoId',todoController.updateById);
+app.delete ('/todo/:todoId',todoController.deleteById);
 app.get('/todo/:todoId',todoController.getTodoById);
 
 
